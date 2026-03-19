@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моніторинг підстанції 110/10 кВ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Трансформаторна підстанція 110/10 кВ</h1>
+            <div class="header-controls">
+                <button id="themeToggle" class="btn">
+                    🌓 Змінити тему
+                </button>
+            </div>
+            <p>Останнє оновлення: <span id="lastUpdate">--:--:--</span></p>
+        </header>
+
+        <nav class="controls">
+            <button id="updateBtn" class="btn btn-primary">Оновити дані</button>
+
+            <button onclick="exportToCSV()" class="btn btn-primary">
+                <span class="btn-title">Звіт у CSV</span>
+            </button>
+
+            <button id="autoUpdateBtn" class="btn btn-success">
+                <div class="btn-content">
+                    <span class="btn-title">Автооновлення</span>
+                    <div class="btn-subtitle">
+                        <span id="autoStatus">Вимкнено</span>
+                        <span id="countdown" style="display:none; font-weight: bold; margin-left: 5px;">3</span>
+                    </div>
+                </div>
+            </button>
+        </nav>
+
+        <main class="dashboard">
+            <section class="card-modern" id="card0">
+                <h3>Напруга первинна</h3>
+                <div class="chart-box"><canvas id="gauge0"></canvas></div>
+                <div class="value">
+                    <span id="param0" class="big-number">0</span> <span class="unit">кВ</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress0" class="progress-fill"></div>
+                </div>
+                <div id="status0" class="status-indicator">●</div>
+            </section>
+
+            <section class="card-modern" id="card1">
+                <h3>Напруга вторинна</h3>
+                <div class="chart-box"><canvas id="gauge1"></canvas></div>
+                <div class="value">
+                    <span id="param1" class="big-number">0</span> <span class="unit">кВ</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress1" class="progress-fill"></div>
+                </div>
+                <div id="status1" class="status-indicator">●</div>
+            </section>
+
+            <section class="card-modern" id="card2">
+                <h3>Струм навантаження</h3>
+                <div class="chart-box"><canvas id="gauge2"></canvas></div>
+                <div class="value">
+                    <span id="param2" class="big-number">0</span> <span class="unit">А</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress2" class="progress-fill"></div>
+                </div>
+                <div id="status2" class="status-indicator">●</div>
+            </section>
+
+            <section class="card-modern" id="card3">
+                <h3>Температура масла</h3>
+                <div class="chart-box"><canvas id="gauge3"></canvas></div>
+                <div class="value">
+                    <span id="param3" class="big-number">0</span> <span class="unit">°C</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress3" class="progress-fill"></div>
+                </div>
+                <div id="status3" class="status-indicator">●</div>
+            </section>
+
+            <div class="legend-container">
+                <div class="legend-item"><span class="dot dot-green"></span> <span>Нормальний стан</span></div>
+                <div class="legend-item"><span class="dot dot-yellow"></span> <span>Потребує уваги</span></div>
+                <div class="legend-item"><span class="dot dot-red"></span> <span>Аварійний стан</span></div>
+            </div>
+        </main>
+
+        <section class="chart-container card-modern">
+            <canvas id="powerChart"></canvas>
+        </section>
+
+        <section class="card-modern history-section" style="margin-top: 20px;">
+            <h3>Журнал останніх подій</h3>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 15px; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid rgba(127, 140, 141, 0.3);">
+                            <th style="padding: 12px;">Час</th>
+                            <th style="padding: 12px;">Загальний стан</th>
+                            <th style="padding: 12px;">Осн. параметр (Струм)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Система моніторингу підстанції. Всі права захищені.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+<main class="dashboard">
+    <section class="card-modern" id="card0">
+        <h3>Напруга первинна</h3>
+        <div class="chart-box"><canvas id="gauge0"></canvas></div>
+        <div class="value"><span id="param0">0</span> кВ</div>
+        <div class="progress-bar">
+            <div id="progress0" class="progress-fill"></div>
+        </div>
+        <div id="status0" class="status-indicator">●</div>
+    </section>
+    <div class="legend-container">
+        <div class="legend-item"><span class="dot dot-green"></span> — Норма</div>
+        <div class="legend-item"><span class="dot dot-yellow"></span> — Увага</div>
+        <div class="legend-item"><span class="dot dot-red"></span> — Аварія</div>
+    </div>
+</main>
